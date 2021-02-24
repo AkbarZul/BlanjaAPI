@@ -7,7 +7,7 @@ module.exports = {
         // "SELECT * FROM orders WHERE user_id =" + user_id,
         `SELECT o.id, o.transaction_code, o.total, o.user_id, ac.address, o.status_order, o.created_at, o.updated_at FROM orders as o 
         INNER JOIN address_customer as ac ON o.id_address = ac.id_address
-        WHERE o.user_id =${user_id}`,
+        WHERE o.user_id =${user_id} ORDER BY o.created_at DESC`,
         "SELECT od.order_id, p.product_name, c.category_name, cd.conditions, st.name, od.product_qty, od.sub_total_item FROM order_details as od INNER JOIN products as p ON od.product_id = p.id INNER JOIN categories as c ON p.category_id = c.id_categories  INNER JOIN conditions as cd ON p.condition_id = cd.id INNER JOIN status_product as st ON p.status_product_id = st.id ",
       ];
       db.query(queryString.join(";"), (err, data) => {

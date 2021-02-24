@@ -40,16 +40,16 @@ module.exports = {
         });
     },
 
-    // deleteAddress: (params, user_id) => {
-    //     return new Promise((resolve, reject) => {
-    //         const queryString = "DELETE FROM shipping_address WHERE id_address = ?"
-    //         db.query(queryString, [params, user_id], (err, data) => {
-    //             if (!err) {
-    //                 resolve(data)
-    //             } else {
-    //                 reject(err)
-    //             }
-    //         })
-    //     })
-    // }
+    deleteAddress: (params, user_id) => {
+        return new Promise((resolve, reject) => {
+            const queryString = "DELETE FROM address_customer WHERE id_address = ?"
+            db.query(queryString, [params, user_id], (err, data) => {
+                if (!err) {
+                    resolve(data)
+                } else {
+                    reject(err)
+                }
+            })
+        })
+    }
 }

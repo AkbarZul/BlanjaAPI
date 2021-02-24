@@ -62,8 +62,8 @@ module.exports = {
   },
 
   getAllOrderHistorySeller: (req, res) => {
-    // const user_id = req.decodedToken.id;
-    const user_id = 7;
+    const user_id = req.decodedToken.id;
+    // const user_id = 7;
     // const level = req.decodedToken.level_id;
 
 

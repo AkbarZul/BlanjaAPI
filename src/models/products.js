@@ -346,6 +346,7 @@ module.exports = {
         WHERE p.category_id = ? AND s.size_id = ? AND cl.color_id = ?`,
         `SELECT * FROM product_sizes`,
         `SELECT * FROM product_colors`,
+        `SELECT product_id, AVG(rating) as rating FROM ratings GROUP BY product_id`,
       ];
 
       db.query(
