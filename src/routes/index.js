@@ -15,6 +15,7 @@ const addressRouter = require("./address");
 const statusRouter = require("./status");
 const conditionRouter = require("./condition");
 const reviewRouter = require("./review");
+const chatRouter = require("./chat");
 
 mainRouter.use("/", welcomeRouter);
 mainRouter.use("/categories", categoriesRouter);
@@ -29,7 +30,7 @@ mainRouter.use("/auth", authRouter);
 mainRouter.use("/address", addressRouter);
 mainRouter.use("/status", statusRouter);
 mainRouter.use("/condition", conditionRouter);
-
+mainRouter.use("/chat", chatRouter);
 mainRouter.use("/review", reviewRouter);
 
 module.exports = mainRouter;

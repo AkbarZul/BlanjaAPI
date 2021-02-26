@@ -1,3 +1,4 @@
+
 const db = require("../config/mySQL");
 
 module.exports = {
@@ -8,7 +9,7 @@ module.exports = {
         `SELECT o.id, o.transaction_code, o.total, o.user_id, ac.address, o.status_order, o.created_at, o.updated_at FROM orders as o 
         INNER JOIN address_customer as ac ON o.id_address = ac.id_address
         WHERE o.user_id =${user_id} ORDER BY o.created_at DESC`,
-        "SELECT od.order_id, p.product_name, c.category_name, cd.conditions, st.name, od.product_qty, od.sub_total_item FROM order_details as od INNER JOIN products as p ON od.product_id = p.id INNER JOIN categories as c ON p.category_id = c.id_categories  INNER JOIN conditions as cd ON p.condition_id = cd.id INNER JOIN status_product as st ON p.status_product_id = st.id ",
+        "SELECT od.order_id, p.product_name, c.category_name, cd.conditions, st.name, od.product_qty, od.sub_total_item FROM order_details as od INNER JOIN products as p ON od.product_id = p.id INNER JOIN categories as c ON p.category_id = c.id_categories  INNER JOIN conditions as cd ON p.condition_id = cd.id INNER JOIN status_product as st ON p.status_product_id = st.id",
       ];
       db.query(queryString.join(";"), (err, data) => {
         if (!err) {
@@ -106,30 +107,53 @@ module.exports = {
     });
   },
 
+  getOrderHistorySellerById: (order_id, user_id) => {
+    return new Promise((resolve, reject) => {
+      const queryString = [
+        `SELECT o.id, o.transaction_code, o.total, o.user_id, ac.address, o.status_order, o.created_at, o.updated_at FROM orders as o 
+        INNER JOIN address_customer as ac ON o.id_address = ac.id_address
+        WHERE o.seller_id =${user_id} AND o.id=${order_id}`,
+        `SELECT od.order_id, p.product_name, c.category_name, cd.conditions, st.name, od.product_qty, od.sub_total_item, p.product_photo FROM order_details as od 
+        INNER JOIN products as p ON od.product_id = p.id 
+        INNER JOIN categories as c ON p.category_id = c.id_categories  
+        INNER JOIN conditions as cd ON p.condition_id = cd.id 
+        INNER JOIN status_product as st ON p.status_product_id = st.id WHERE od.order_id=${order_id}`,
+      ];
+      db.query(queryString.join(";"), (err, data) => {
+        if (!err) {
+          resolve(data);
+        } else {
+          console.log(err);
+          reject(err);
+        }
+      });
+    });
+  },
+
   updateStatusOrder: (order_id, body, level) => {
     return new Promise((resolve, reject) => {
-      if(level !== 2 ){
+      if (level !== 2) {
         reject({
           msg: "your level is not match to create orders",
           status: 401,
         });
-      }else{
+      } else {
         const queryString = "UPDATE orders SET ? WHERE id =?";
 
-      db.query(queryString, [body ,order_id], (err, data) => {
-        if(!err){
-          resolve({
-            msg: "Update status is successfully",
-            status: 200,
-            data : data
-          });
-        }else{
-          reject({
-            msg: "Update status is failed",
-            status: 500
-          });
-        }
-      });
+        db.query(queryString, [body, order_id], (err, data) => {
+          if (!err) {
+            resolve({
+              msg: "Update status is successfully",
+              status: 200,
+              data: data,
+            });
+          } else {
+            reject({
+              msg: "Update status is failed",
+              status: 500,
+            });
+          }
+        });
       }
     });
   },

@@ -63,6 +63,7 @@ module.exports = {
 
   getAllOrderHistorySeller: (req, res) => {
     const user_id = req.decodedToken.id;
+    console.log(req.decodedToken);
     // const user_id = 7;
     // const level = req.decodedToken.level_id;
 
@@ -72,6 +73,24 @@ module.exports = {
       .then((data) => {
         form.nestedAll(res, data);
         console.log(data);
+      })
+      .catch((error) => {
+        res.status(500).send({
+          message: "failed",
+          status: false,
+          error: error,
+        });
+      });
+  },
+
+  getOrderHistorySellerById: (req, res) => {
+    const user_id = req.decodedToken.id;
+    const { id } = req.params;
+
+    orderModel
+      .getOrderHistorySellerById(id, user_id)
+      .then((data) => {
+        form.nestedOne(res, data);
       })
       .catch((error) => {
         res.status(500).send({

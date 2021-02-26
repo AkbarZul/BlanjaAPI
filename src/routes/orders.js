@@ -5,9 +5,11 @@ const checkToken = require("../helpers/middlewares/checkToken");
 
 orders.get("/", checkToken, ordersController.getAllOrdersHistory);
 orders.get("/seller", checkToken, ordersController.getAllOrderHistorySeller);
-orders.put("/seller/:id", checkToken, ordersController.updateStatusOrder);
+orders.get("/seller/:id", checkToken, ordersController.getOrderHistorySellerById);
 orders.get("/:id", checkToken, ordersController.getTransactionById);
+orders.put("/seller/:id", checkToken, ordersController.updateStatusOrder);
 orders.post("/", checkToken, ordersController.postOrders);
+
 
 // getAllOrderHistorySeller
 
